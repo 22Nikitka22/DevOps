@@ -1,0 +1,40 @@
+---
+# tasks file for my_role
+
+- name: Ensure necessary packages are installed on server1
+  apt:
+    pkg:
+      - scala
+      - git
+    state: latest
+  when: inventory_hostname == 'server1'
+
+- name: Clone Scala repository on server1
+  git:
+    repo: '{{ repo }}'
+    dest: '{{ repoDir }}'
+  when: inventory_hostname == 'server1'
+
+- name: Compile Scala application on server1
+  command: scalac '{{ compiledFileName }}.scala'
+  args:
+    chdir: '{{ repoDir }}'
+  when: inventory_hostname == 'server1'
+
+- name: Run Scala application on server1 and save output
+  command: scala '{{ compiledFileName }}'
+  args:
+    chdir: '{{ repoDir }}'
+  register: scala_output
+  when: inventory_hostname == 'server1'
+
+- name: Set fact for Scala output on server1
+  set_fact:
+    scala_output_content: "{{ scala_output.stdout }}"
+  when: inventory_hostname == 'server1'
+
+- name: Save Scala output to file on server2
+  copy:
+    content: "{{ hostvars['server1'].scala_output_content }}"
+    dest: "{{ outputFile }}"
+  when: inventory_hostname == 'server2'

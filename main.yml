@@ -1,0 +1,5 @@
+- name: Install Scala and HelloWorld
+  hosts: scala
+  roles:
+    - andrewrothstein.scala
+    - my_role

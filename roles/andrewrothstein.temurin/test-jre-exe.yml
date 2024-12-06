@@ -1,0 +1,8 @@
+---
+- name: Executing 'java -version'
+  ansible.builtin.command: /usr/local/openjdk-jre/bin/java -version
+  changed_when: false
+  register: temurin_jre_test_output
+- name: Output (stderr) from 'java -version'
+  ansible.builtin.debug:
+    msg: '{{ temurin_jre_test_output.stderr }}'

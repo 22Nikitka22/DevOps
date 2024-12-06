@@ -1,0 +1,17 @@
+---
+# vars file for my_role
+
+repo:
+  https://github.com/22Nikitka22/hello-world-scala.git
+  
+repoDir:
+  /tmp/hello-world-scala
+  
+compiledFileName:  
+  HelloWorld
+  
+runDir:
+  /opt/scala-app
+
+outputFile:
+  /tmp/scala_output.txt
